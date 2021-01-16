@@ -1,0 +1,13 @@
+server:
+  port: 10080
+
+spring:
+  application:
+    name: eureka
+
+eureka:
+  client:
+    register-with-eureka: false                   #标识是否将自己注册到eureka-service中，默认为true，由于当前应用就是eureka-service，所以设置为false
+    fetch-registry: false                         #标识是否从eureka-service中获取注册信息，默认为true， 因为这是一个单节点应用，不需要同步其他eureka-service，所以设置为false
+    service-url:
+      defaultZone: http://localhost:10080/eureka/ #eureka-service的交互地址 查询服务和注册服务都需要以来这个地址；多个可用 ，分隔

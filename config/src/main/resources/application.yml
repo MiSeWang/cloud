@@ -1,5 +1,13 @@
 server:
   port: 10100
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:10080/eureka/
+  instance:
+    prefer-ip-address: true
+
 spring:
   application:
     name: config
@@ -7,7 +15,6 @@ spring:
     config:
       server:
         git:
-#          uri: git@github.com:MiSeWang/cloud-config.git
           uri: ${CLOUD_CONFIG_URI:https://github.com/MiSeWang/cloud-config.git}
           username: ${CLOUD_CONFIG_NAME:826303461@qq.com}
           password: ${CLOUD_CONFIG_PASSWORD:lvshiyu298}

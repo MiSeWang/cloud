@@ -1,0 +1,11 @@
+server:
+  port: 10011
+
+spring:
+  application:
+    name: api
+  cloud:
+    config:
+      uri: http://${CLOUD_CONFIG_INSTANCE:localhost}:10100
+      profile: dev
+      name: ${spring.application.name}

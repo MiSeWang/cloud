@@ -47,4 +47,9 @@
         </plugins>
     </build>
 
+    <modules>
+        <module>config</module>
+        <module>zuul</module>
+        <module>api</module>
+    </modules>
 </project>

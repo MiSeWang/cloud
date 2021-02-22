@@ -1,0 +1,51 @@
+server:
+  port: 10100
+
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CLOUD_CONFIG_URI:git@115.159.2.26:/home/git/hub/cloud-config.git}
+          ignoreLocalSshSettings: true
+          privateKey: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpQIBAAKCAQEA5K14hScEF7rnb0j1hHZ/Ft5MSh5WPo31YI4ZuSAsN4elLlty
+            Va2uEkXyqfUwfx+dnD9wII3Fyj1Zpv2Q43AOXA2rd5JnfmvDC7AJCYCb3HVD2aWf
+            o4Fzapm4nYObeondAinwJ4y05nj6OEX591c/TujGuSmcueZDEp85PnQ1KzmMaLpn
+            g/s37KN+P8oV5aGwYYM09qJv8hmRrTZQBT8eKp8ne/4u/yIUxgxcqw/zI1JBMOHu
+            xsJ0UADaT5q34/Qttg7j70gBbz654ASTlnzDQx6vkDsQJeTNBxHTMk4X6wraClU4
+            t245nUDvdrAa5322uaI1PKdyIpc7zW8Xj0Ir4wIDAQABAoIBAQCrmKhpcl+V1wC3
+            902U+r5fUKx6qc0Z37iTnc4bptLHUJhY8vIW7N9EgwyXEJA1tGm2x7vCEeCr4+GU
+            d43zvTBpTzCt50SWDxMrgAsoAEP06GHjvm7OaONMyNFKEWnoR+96IjI9204b7AgH
+            lir+uY+eDPqiE2Gx9eG65ZQ1E0qahYcUyoRYJlt+tczCCQojQYY+ShE8+rOY1rfW
+            pzSA0ueRfEhLVbWjBAnwXZzS37JM0bV3ZOcrnPhVY4T5hsDQd6KUWHiGc7JX7ZVL
+            j6c+lwjZFZRMVbIIKLo7fgbHF/9wUefpoJDpUKGS+8g8GYZkyR+LL54AFfKETsCn
+            6rPj8VsxAoGBAP34QTq66BPrfPhDH6dinPWDUkp9Ny8rmRsn56BpTXJ1NvqbWSFu
+            t2Ein+dNy9b++cqB+5Zq7fhYvRIreonlykh43f6wplMKpznC26WzPmN+8XEQKlFe
+            D7ZNR6Oy8ShYjHyZOpMBicPdfgj2GAARugnYCaRdXq8osW1TSiEast61AoGBAOaB
+            dL6JyBv40JeqfdRSK8uULTDxJclp8ejr/LkqnHljs3BQBfclJv4zdDgPle9/CYD+
+            swvi1K6tQKq+tkaL4MW+0JvKA9gKHoQzFLI4VSVulZkxO23YUdf5/nq5BBg55ecc
+            as94ZWXFGwjxa9AsyzNsTDxLIjoOw/Rxcamow+c3AoGBANL7ZdUQaLQDsbHcsXMw
+            rQwYqEhRdYKuSWcR446TbE9lqOLQI19uxtDfHs/dBTX6ZDEjgooXEtJ5hbiOfiII
+            z98c6e8neUULWJjXk/k3yuCFGLbAoyctaQgdcyI/CbBmv27TLKHraTNZ0dZH+vAz
+            ycVbv8bX+kyxFZSo2LBfqbDxAoGAJgq3ebrDi9pEksNQgPoOwEp0Kt+hnNwfUJGh
+            4+1kZaROuPp8AY3gIZPcWmQ4Go6cwu1GH3AQKcPuKD/RVVNAhWI4i32LpNwGrUrA
+            36jsZIEbr2ywojBRUZOwrBBc3KKxjrLh7duw4FrnW1J8uJ6r6pC1BD5iJ7LIJE+U
+            sqtnqYECgYEAgyHbjpkmY6ME1ahjQbdcLHjIDkD7dcfpeead7SAMl2ADmxia/QaO
+            t86xSdBfRuGRKS8ESWjZhMavNx4pjR2vsCScnWGq8bAj8htP8Ea5JN+e0GMeVMRU
+            trqKtuBpu2uG4cwsaoh3aE1v8SyVKM+SzkKJ1RHUqhZHl9tPqA3aOsg=
+            -----END RSA PRIVATE KEY-----
+
+          #uri: ${CLOUD_CONFIG_URI:http://github.com/MiSeWang/cloud-config.git}
+          #username: ${CLOUD_CONFIG_NAME:git}
+          #password: ${CLOUD_CONFIG_PASSWORD:123456}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:10080/eureka/
+  instance:
+    prefer-ip-address: true
+

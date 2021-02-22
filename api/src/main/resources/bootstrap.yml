@@ -7,5 +7,24 @@ spring:
   cloud:
     config:
       uri: http://${CLOUD_CONFIG_INSTANCE:localhost}:10100
-      profile: dev
+      #如果环境变量 CLOUD_CONFIG_PROFILE 中有值，则使用 CLOUD_CONFIG_PROFILE 的 value，否则使用dev
+      profile: ${CLOUD_CONFIG_PROFILE:dev}
+      #name: uncommon, common, database, rabbitmq, ${spring.application.name}
       name: ${spring.application.name}
+      #如果取不到是否是中止报错。default false
+      fail-fast: true
+      #控制器
+  servlet:
+    #上传限制
+    multipart:
+      #开启多段上传
+      enabled: true
+      max-file-size: 10Mb
+      max-request-size: 10Mb
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:10080/eureka/
+  instance:
+    prefer-ip-address: true

@@ -1,0 +1,56 @@
+version: '3'
+services:
+  core-eureka:
+    image: cloud-core-eureka
+    networks:
+      - cloud-overlay
+    ports:
+      - "10080:10080"
+    environment:
+      - CLOUD_EUREKA_INSTANCE=core-eureka
+      - CLOUD_CONFIG_PROFILE=test
+      - CLOUD_CONFIG_INSTANCE=core-config
+      - JAVA_OPTS=-Xmx128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  core-zuul:
+    image: cloud-core-zuul
+    networks:
+      - cloud-overlay
+    ports:
+      - "10088:10088"
+    environment:
+      - CLOUD_EUREKA_INSTANCE=core-eureka
+      - CLOUD_CONFIG_PROFILE=test
+      - CLOUD_CONFIG_INSTANCE=core-config
+      - JAVA_OPTS=-Xmx128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+  core-config:
+    image: cloud-core-config
+    networks:
+      - cloud-overlay
+    ports:
+      - "10100:10100"
+    environment:
+      - CLOUD_EUREKA_INSTANCE=core-eureka
+      - CLOUD_CONFIG_PROFILE=test
+      - CLOUD_CONFIG_INSTANCE=core-config
+      - JAVA_OPTS=-Xmx128m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+
+networks:
+  default:
+    external:
+      name: cloud-overlay
+  cloud-overlay:
+    external: true

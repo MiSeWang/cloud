@@ -48,8 +48,9 @@
     </build>
 
     <modules>
-        <module>config</module>
-        <module>zuul</module>
+        <module>core-config</module>
+        <module>core-zuul</module>
+        <module>core-eureka</module>
         <module>api</module>
     </modules>
 </project>

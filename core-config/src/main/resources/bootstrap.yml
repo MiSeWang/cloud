@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: config
+    name: core-config
   cloud:
     config:
       server:
@@ -45,7 +45,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://${EUREKA_SERVER_ADDRESS:localhost}:10080/eureka/
+      defaultZone: http://${CLOUD_EUREKA_INSTANCE:localhost}:10080/eureka/
   instance:
     prefer-ip-address: true
 

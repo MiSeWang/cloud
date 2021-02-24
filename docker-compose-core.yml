@@ -10,7 +10,7 @@ services:
       - CLOUD_EUREKA_INSTANCE=core-eureka
       - CLOUD_CONFIG_PROFILE=test
       - CLOUD_CONFIG_INSTANCE=core-config
-      - JAVA_OPTS=-Xmx128m
+      - JAVA_OPTS=-Xmx128m -Xmx=128m
     logging:
       driver: "json-file"
       options:
@@ -26,7 +26,7 @@ services:
       - CLOUD_EUREKA_INSTANCE=core-eureka
       - CLOUD_CONFIG_PROFILE=test
       - CLOUD_CONFIG_INSTANCE=core-config
-      - JAVA_OPTS=-Xmx128m
+      - JAVA_OPTS=-Xmx128m -Xmx=128m
     logging:
       driver: "json-file"
       options:
@@ -42,7 +42,7 @@ services:
       - CLOUD_EUREKA_INSTANCE=core-eureka
       - CLOUD_CONFIG_PROFILE=test
       - CLOUD_CONFIG_INSTANCE=core-config
-      - JAVA_OPTS=-Xmx128m
+      - JAVA_OPTS=-Xmx128m -Xmx=128m
     logging:
       driver: "json-file"
       options:

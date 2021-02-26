@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+  db-mysql:
+    image: mysql:5.7
+    networks:
+      - cloud-overlay    
+    ports:
+      - 3306:3306
+    volumes:
+      - /opt/cloud/db/data:/var/lib/mysql
+      - /config/db/mysql/my.cnf:/etc/mysql/my.cnf
+      - /logs/db/mysql:/val/log/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+networks:
+  default:
+    external:
+      name: cloud-overlay
+  cloud-overlay:
+    external: true

@@ -1,4 +1,4 @@
-package com.mrlv.config;
+package com.mrlv.db.config;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

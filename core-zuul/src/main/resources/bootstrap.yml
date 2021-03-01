@@ -1,6 +1,9 @@
 server:
   port: 10088
 
+database:
+  name: main_cloud
+
 spring:
   application:
     name: core-zuul
@@ -8,13 +11,13 @@ spring:
     config:
       uri: http://${CLOUD_CONFIG_INSTANCE:localhost}:10100
       profile: ${CLOUD_CONFIG_PROFILE:dev}
-      name: base-core, ${spring.application.name}
+      name: base-core, database, ${spring.application.name}
       fail-fast: true
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${CLOUD_EUREKA_INSTANCE:localhost}:10080/eureka/
-  instance:
-    lease-renewal-interval-in-seconds: 3    #网关拉取注册到eureka上面的微服务时间间隔为3秒, 解决开发环境微服务注册反应慢的问题
-    prefer-ip-address: true
+zuul:
+  prefix: /mrlv		#域名加前缀
+  #  ignored-services: micioservice-cloud-dept #禁止直接访问该服务
+  ignored-services: "*" #禁止所有微服务直接用服务名访问
+  routes:
+    mydept.serviceId: micioservice-cloud-dept
+    mydept.path:  /mydept/**

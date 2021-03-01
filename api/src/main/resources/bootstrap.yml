@@ -1,6 +1,9 @@
 server:
   port: 10011
 
+database:
+  name: main_cloud
+
 spring:
   application:
     name: api

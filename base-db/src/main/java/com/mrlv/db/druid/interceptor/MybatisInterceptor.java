@@ -14,15 +14,15 @@ import java.sql.Connection;
 import java.util.Properties;
 
 /**
- * Mybatis拦截器, 原作为多租户和myCat
+ * Mybatis拦截器, 原作为多租户和myCat, 暂时不需要进行特殊处理
  **/
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class MybatisInterceptor implements Interceptor {
 
     private final Logger log = LoggerFactory.getLogger(MybatisInterceptor.class);
 
-//    @Value("${database.name:}")
-//    private String databaseName;
+    @Value("${database.name:}")
+    private String databaseName;
 
 //    @Value("${mycat.schema:}")
 //    private String mycatSchema;
@@ -34,9 +34,9 @@ public class MybatisInterceptor implements Interceptor {
         //    return invocation.proceed();
         //}
         //tenantId = StringUtils.isNotBlank(mycatSchema) ? mycatSchema : tenantId;
-        //StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+//        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 
-        //BoundSql boundSql = statementHandler.getBoundSql();
+//        BoundSql boundSql = statementHandler.getBoundSql();
         //获取到原始sql语句
 //        String sql = boundSql.getSql();
 //        StringBuilder sb = new StringBuilder();

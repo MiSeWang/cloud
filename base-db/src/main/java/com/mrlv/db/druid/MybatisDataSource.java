@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -32,18 +33,24 @@ import java.sql.SQLException;
  */
 @Configuration
 @EnableConfigurationProperties(DruidDataSourceProperties.class)
-//mybaits mapper 搜索路径
-@MapperScan("com.mrlv.mapper")
+@MapperScan("com.mrlv.mapper")//mybatis mapper 搜索路径
 @EnableTransactionManagement
 public class MybatisDataSource {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
 	@Autowired
 	private DruidDataSourceProperties config;
 	//mybatis mapper xml搜索路径
 	private final static String mapperLocations="classpath:mapping/**/*.xml";
 
 	@Bean
+	@ConditionalOnProperty(prefix="database", name="type", havingValue="druid", matchIfMissing = true)
+	/**
+	 * prefix application.properties配置的前缀
+	 * name 属性是从application.properties配置文件中读取属性值
+	 * havingValue 配置读取的属性值跟havingValue做比较，如果一样则返回true;否则返回false。
+	 * 如果返回值为false，则该configuration不生效；为true则生效
+	 * matchIfMissing = true表示如果没有在application.properties设置该属性，则默认为条件符合
+	 */
 	public DataSource druidDataSource() {
 		DruidDataSource datasource= new DruidDataSource();
 		datasource.setDriverClassName(config.getDriverClassName());
@@ -70,6 +77,7 @@ public class MybatisDataSource {
 	}
 
 	@Bean
+	@ConditionalOnMissingBean
 	public SqlSessionFactory sqlSessionFactoryBean(MybatisInterceptor mybatisInterceptor) throws Exception {
 		MybatisSqlSessionFactoryBean sqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(druidDataSource());
@@ -85,7 +93,7 @@ public class MybatisDataSource {
 	}
 
 	/**
-	 * sql修改拦截器(添加mycat schema)
+	 * sql修改拦截器(添加myCat schema)
 	 *
 	 * @return MybatisInterceptor
 	 */

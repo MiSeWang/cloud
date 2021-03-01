@@ -19,6 +19,7 @@
     </properties>
 
     <dependencies>
+        <!-- 导入jar 引入数据库jar -->
         <dependency>
             <groupId>com.mrlv</groupId>
             <artifactId>base-db</artifactId>

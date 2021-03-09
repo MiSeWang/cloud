@@ -52,5 +52,6 @@
         <module>core-zuul</module>
         <module>core-eureka</module>
         <module>api</module>
+        <module>base-activiti</module>
     </modules>
 </project>

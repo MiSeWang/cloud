@@ -14,10 +14,10 @@ spring:
       name: base-core, database, ${spring.application.name}
       fail-fast: true
 
-zuul:
-  prefix: /mrlv		#域名加前缀
-  #  ignored-services: micioservice-cloud-dept #禁止直接访问该服务
-  ignored-services: "*" #禁止所有微服务直接用服务名访问
-  routes:
-    mydept.serviceId: micioservice-cloud-dept
-    mydept.path:  /mydept/**
+#zuul:
+#  prefix: /mrlv		#域名加前缀
+#  #  ignored-services: micioservice-cloud-dept #禁止直接访问该服务
+#  ignored-services: "*" #禁止所有微服务直接用服务名访问
+#  routes:
+#    mydept.serviceId: micioservice-cloud-dept
+#    mydept.path:  /mydept/**

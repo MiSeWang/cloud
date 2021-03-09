@@ -1,6 +1,5 @@
 package com.mrlv.db.druid.interceptor;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.*;
@@ -21,7 +20,7 @@ public class MybatisInterceptor implements Interceptor {
 
     private final Logger log = LoggerFactory.getLogger(MybatisInterceptor.class);
 
-    @Value("${database.name:}")
+    @Value("${database.name}")
     private String databaseName;
 
 //    @Value("${mycat.schema:}")

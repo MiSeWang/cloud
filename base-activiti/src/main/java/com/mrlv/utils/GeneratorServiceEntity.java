@@ -31,7 +31,7 @@ public class GeneratorServiceEntity {
 
         String courseFile = "E:\\code\\osg\\organization-v2\\organization-v2-base-9206";
         gc.setOutputDir(courseFile + "\\src\\main\\java");
-        /*每次生成，是否覆盖之前的文件（慎重考虑啊）*/
+        /* 每次生成，是否覆盖之前的文件（慎重考虑啊）*/
         gc.setFileOverride(false);
         gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存

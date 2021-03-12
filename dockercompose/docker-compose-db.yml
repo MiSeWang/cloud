@@ -3,7 +3,7 @@ services:
   db-mysql:
     image: mysql:5.7
     networks:
-      - cloud-overlay    
+      - cloud-overlay
     ports:
       - 3306:3306
     volumes:

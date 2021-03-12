@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class GeneratorServiceEntity {
 
-	
+
 	public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();

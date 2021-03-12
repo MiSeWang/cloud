@@ -56,19 +56,19 @@ public class MybatisDataSource {
 		datasource.setPassword(config.getPassword());
 		datasource.setInitialSize(config.getInitialSize());
 		datasource.setMinIdle(config.getMinIdle());
-		datasource.setMaxActive(config.getMaxActive()); 
-		datasource.setMaxWait(config.getMaxWait()); 
-		datasource.setTimeBetweenEvictionRunsMillis(config.getTimeBetweenEvictionRunsMillis()); 
-		datasource.setMinEvictableIdleTimeMillis(config.getMinEvictableIdleTimeMillis()); 
-		datasource.setValidationQuery(config.getValidationQuery()); 
-		datasource.setTestWhileIdle(config.isTestWhileIdle()); 
-		datasource.setTestOnBorrow(config.isTestOnBorrow()); 
-		datasource.setTestOnReturn(config.isTestOnReturn()); 
+		datasource.setMaxActive(config.getMaxActive());
+		datasource.setMaxWait(config.getMaxWait());
+		datasource.setTimeBetweenEvictionRunsMillis(config.getTimeBetweenEvictionRunsMillis());
+		datasource.setMinEvictableIdleTimeMillis(config.getMinEvictableIdleTimeMillis());
+		datasource.setValidationQuery(config.getValidationQuery());
+		datasource.setTestWhileIdle(config.isTestWhileIdle());
+		datasource.setTestOnBorrow(config.isTestOnBorrow());
+		datasource.setTestOnReturn(config.isTestOnReturn());
 		datasource.setPoolPreparedStatements(config.isPoolPreparedStatements());
-		try { 
-			datasource.setFilters(config.getFilters()); 
-		} catch (SQLException e) { 
-			logger.error("druid configuration initialization filter", e); 
+		try {
+			datasource.setFilters(config.getFilters());
+		} catch (SQLException e) {
+			logger.error("druid configuration initialization filter", e);
 		}
 		return datasource;
 	}

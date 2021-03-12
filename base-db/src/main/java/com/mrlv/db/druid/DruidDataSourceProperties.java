@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DruidDataSourceProperties {
 
 	public final static String DS="include-db.datasource";
-	
+
 	private String url;
 
 	private String username;
@@ -169,6 +169,6 @@ public class DruidDataSourceProperties {
 	public void setFilters(String filters) {
 		this.filters = filters;
 	}
-	
-	
+
+
 }

@@ -62,5 +62,8 @@
         <module>core-eureka</module>
         <module>api</module>
         <module>base-activiti</module>
+        <module>base-im</module>
+        <module>base-db</module>
+        <module>base-common</module>
     </modules>
 </project>

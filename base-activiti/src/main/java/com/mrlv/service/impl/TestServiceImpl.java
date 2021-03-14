@@ -10,6 +10,7 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.image.ProcessDiagramGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,18 +53,26 @@ public class TestServiceImpl implements ITestService {
     @Resource
     private HistoryService historyService;
 
+    /**
+     * 用户管理
+     */
+    @Resource
+    private IdentityService identityService;
 
     @Resource
     private ProcessEngineConfiguration processEngineConfiguration;
 
     /**
-     * 启动一个流程
+     * 申请一个流程
      * @param bizId
      */
     @Override
     public String startProcesses(String bizId) {
+        String zdy = "自定义id";
+        //用来设置自动流程的人员id，引擎会自动把用户的id保存到实例中
+        identityService.setAuthenticatedUserId(zdy);
         ProcessInstance instance = runtimeService.startProcessInstanceByKey("demo5", bizId);//流程图id，业务表id
-
+        //生成实例
         System.out.println("流程启动成功，流程id:" + instance.getId());
         return instance.getId();
     }
@@ -75,7 +84,14 @@ public class TestServiceImpl implements ITestService {
      */
     @Override
     public List<Task> findTasksByUserId(String userId) {
-        List<Task> resultTask = taskService.createTaskQuery().processDefinitionKey("demo5").taskCandidateOrAssigned(userId).list();
+
+        List<Task> resultTask = taskService.createTaskQuery()
+                .processDefinitionKey("demo5")  //获取指定流程的代办
+//                .taskAssignee(userId)         //根据当前人的id查询
+//                .taskCandidateUser(userId)    //获取当前任未签收的
+                .taskCandidateOrAssigned(userId)
+                .active()                       //活动的
+                .list();
         return resultTask;
     }
 
@@ -87,6 +103,7 @@ public class TestServiceImpl implements ITestService {
      */
     @Override
     public void completeTask(String taskId, String userId, String result) {
+        //声明是哪个任务。
         taskService.claim(taskId, userId);
         Map<String,Object> vars = new HashMap<>();
         //添加属性
@@ -131,87 +148,7 @@ public class TestServiceImpl implements ITestService {
 
     @Override
     public void queryProHighLighted(String processInstanceId) throws IOException {
-        //获取历史流程实例
-        HistoricProcessInstance processInstance =  historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-        //获取流程图
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
 
-
-        bpmnModel.getFlowElement()
-
-        ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
-        ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity)repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
-
-        List<HistoricActivityInstance> highLightedActivitList =  historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).list();
-        //高亮环节id集合
-        List<String> highLightedActivitis = new ArrayList<>();
-
-        //高亮线路id集合
-        List<String> highLightedFlows = getHighLightedFlows(definitionEntity, highLightedActivitList);
-
-        for(HistoricActivityInstance tempActivity : highLightedActivitList){
-            String activityId = tempActivity.getActivityId();
-            highLightedActivitis.add(activityId);
-        }
-        //配置字体
-        InputStream imageStream = diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitis, highLightedFlows,"宋体","微软雅黑","黑体",null,2.0);
-        BufferedImage bi = ImageIO.read(imageStream);
-        File file = new File("demo2.png");
-        if(!file.exists()) file.createNewFile();
-        FileOutputStream fos = new FileOutputStream(file);
-        ImageIO.write(bi, "png", fos);
-        fos.close();
-        imageStream.close();
-
-        System.out.println("图片生成成功");
     }
 
-    /**
-     * https://blog.csdn.net/qq_41839179/article/details/87706054  Activiti6.0 与 Activiti5.0获取 不同
-     * @param processDefinitionEntity
-     * @param historicActivityInstances
-     * @return
-     */
-
-    private List<String> getHighLightedFlows(ProcessDefinitionEntity processDefinitionEntity, List<HistoricActivityInstance> historicActivityInstances) {
-
-        List<String> highFlows = new ArrayList<String>();// 用以保存高亮的线 flowId
-        for (int i = 0; i < historicActivityInstances.size() - 1; i++) {// 对历史流程节点进行遍历
-            ActivityImpl activityImpl = processDefinitionEntity.findActivity(historicActivityInstances.get(i).getActivityId());// 得到节点定义的详细信息
-            List<ActivityImpl> sameStartTimeNodes = new ArrayList<ActivityImpl>();// 用以保存后需开始时间相同的节点
-            ActivityImpl sameActivityImpl1 = processDefinitionEntity
-                    .findActivity(historicActivityInstances.get(i + 1)
-                            .getActivityId());
-            // 将后面第一个节点放在时间相同节点的集合里
-            sameStartTimeNodes.add(sameActivityImpl1);
-            for (int j = i + 1; j < historicActivityInstances.size() - 1; j++) {
-                HistoricActivityInstance activityImpl1 = historicActivityInstances
-                        .get(j);// 后续第一个节点
-                HistoricActivityInstance activityImpl2 = historicActivityInstances
-                        .get(j + 1);// 后续第二个节点
-                if (activityImpl1.getStartTime().equals(
-                        activityImpl2.getStartTime())) {
-                    // 如果第一个节点和第二个节点开始时间相同保存
-                    ActivityImpl sameActivityImpl2 = processDefinitionEntity
-                            .findActivity(activityImpl2.getActivityId());
-                    sameStartTimeNodes.add(sameActivityImpl2);
-                } else {
-                    // 有不相同跳出循环
-                    break;
-                }
-            }
-            List<PvmTransition> pvmTransitions = activityImpl
-                    .getOutgoingTransitions();// 取出节点的所有出去的线
-            for (PvmTransition pvmTransition : pvmTransitions) {
-                // 对所有的线进行遍历
-                ActivityImpl pvmActivityImpl = (ActivityImpl) pvmTransition
-                        .getDestination();
-                // 如果取出的线的目标节点存在时间相同的节点里，保存该线的id，进行高亮显示
-                if (sameStartTimeNodes.contains(pvmActivityImpl)) {
-                    highFlows.add(pvmTransition.getId());
-                }
-            }
-        }
-        return highFlows;
-    }
 }

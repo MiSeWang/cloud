@@ -26,10 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class StencilsetRestResource {
-  
+  /**
+   * 获取组件json， 如果修改了stencilset.json的路径，则需改修改这里的路径
+   * @return
+   */
   @RequestMapping(value="/modeler/editor/stencilset", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
   public @ResponseBody String getStencilset() {
-    InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
+    InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("public/modeler/stencilset.json");
     try {
       return IOUtils.toString(stencilsetStream, "utf-8");
     } catch (Exception e) {

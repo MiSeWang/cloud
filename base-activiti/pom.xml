@@ -66,7 +66,7 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-json-converter</artifactId>
-            <version>6.0.0</version>
+            <version>${activiti.version}</version>
         </dependency>
 
     </dependencies>

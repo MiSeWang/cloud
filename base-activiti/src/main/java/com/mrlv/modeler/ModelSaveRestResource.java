@@ -52,7 +52,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   @Autowired
   private ObjectMapper objectMapper;
   
-  @RequestMapping(value="/modeler/model/{modelId}/save", method = RequestMethod.PUT)
+  @RequestMapping(value="/modeler/model/{modelId}/save", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.OK)
   public void saveModel(@PathVariable String modelId, @RequestBody MultiValueMap<String, String> values) {
     try {
@@ -83,7 +83,6 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
       final byte[] result = outStream.toByteArray();
       repositoryService.addModelEditorSourceExtra(model.getId(), result);
       outStream.close();
-      
     } catch (Exception e) {
       LOGGER.error("Error saving model", e);
       throw new ActivitiException("Error saving model", e);

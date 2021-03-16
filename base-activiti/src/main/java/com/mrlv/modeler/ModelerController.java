@@ -44,9 +44,17 @@ public class ModelerController extends BaseController implements ModelDataJsonCo
         try {
             //获取模型
             Model modelData = repositoryService.getModel(modelId);
-            ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(repositoryService.getModelEditorSource(modelData.getId()));
+            byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
+            if (bytes == null) {
+                return "模型数据为空，请先设计流程并成功保存，再进行发布。";
+            }
+            ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(bytes);
             BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+            if(model.getProcesses().size()==0){
+                return "数据模型不符要求，请至少设计一条主线流程。";
+            }
             byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+
             String processName = modelData.getName() + ".bpmn20.xml";
             //将模型生成流程，生成后无法再进行改动
             Deployment deployment = repositoryService.createDeployment().name(modelData.getName()).addString(processName, new String(bpmnBytes, "UTF-8")).deploy();

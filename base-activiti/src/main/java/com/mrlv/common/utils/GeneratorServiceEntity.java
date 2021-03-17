@@ -1,4 +1,4 @@
-package com.mrlv.utils;
+package com.mrlv.common.utils;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;

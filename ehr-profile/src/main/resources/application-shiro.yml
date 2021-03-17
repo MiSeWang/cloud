@@ -1,0 +1,11 @@
+shiro:
+  loginUrl: /auth/page/401
+  unauthorizedUrl: /auth/page/403
+  successUrl: /auth/page/index
+#shiro:
+##  未经身份验证的用户重定向到登录页面时使用的登录URL
+#  loginUrl: /auth/page/401
+##  页面将用户重定向到未经授权的页面（403页）
+#  unauthorizedUrl: /auth/page/403
+##  用户登录后的默认登录页面（如果在当前会话中找不到替代）
+#  successUrl: /auth/page/index

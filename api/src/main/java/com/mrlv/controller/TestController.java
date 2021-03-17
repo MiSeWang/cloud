@@ -3,6 +3,7 @@ package com.mrlv.controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,9 +14,10 @@ public class TestController {
     @Value("${spring.cloud.config.profile}")
     private String profile;
 
-    @GetMapping("/index")
+    @PostMapping("/index")
     public String index(){
 //        return profile;
+        System.out.println(profile);
         return "";
     }
 }

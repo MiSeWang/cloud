@@ -14,10 +14,32 @@ spring:
       name: base-core, database, ${spring.application.name}
       fail-fast: true
 
-zuul:
-#  prefix: /mrlv		#域名加前缀
-#  #  ignored-services: micioservice-cloud-dept #禁止直接访问该服务
-#  ignored-services: "*" #禁止所有微服务直接用服务名访问
-  routes:
-    mydept.serviceId: micioservice-cloud-dept
-    mydept.path:  /mydept/**
+#zuul:
+#  prefix: /mrlv		  #访问网关路径的前缀（在映射路径的前面，一般用于区别开发的版本）
+#  ignored-services:      #micioservice-cloud-dept #禁止直接访问该服务
+#  ignored-services: "*"  #禁止所有微服务直接用服务名访问
+#  routes:
+    # 随意写的区分不同映射服务器的名称（只是区分不同的映射服务器）
+#    mydept:
+      #eureka注册中心中要映射的服务名称，因为是双层map结构，所以可以实现负载均衡和高可用
+#      serviceId: api
+      #这是写的固定映射url，可代替service-id。但是不能实现服务器的负载均衡和高可用，因为总是访问同一服务器
+      #url: http://127.0.0.1:8093
+      #自定义映射服务器路径的名称（相当于key，外部访问这个地址会映射到下面的service-id这个value值。然后从eureka服务列表找到对应服务名称，进而负载均衡的请求一个服务器）
+#      path:  /api/**
+
+ribbon:
+  ConnectTimeout: 5000             # 连接超时时间（ms），默认值为250ms
+  ReadTimeout: 10000               # 通信超时时间（ms），默认值为2000ms
+  OkToRetryOnAllOperations: true  # 是否对所有操作都进行重试
+  MaxAutoRetriesNextServer: 2     # 对同一服务不同实例重试次数（同一服务下集群个数的重试次数）
+  MaxAutoRetries: 2               # 对同一实例重试的次数（单个集群节点服务重试的次数）
+
+# 开启熔断机制，超过六秒即开启熔断机制，网关内的时间排序：zuul的通信时间 > hystrix熔断时间 > retry重试时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000

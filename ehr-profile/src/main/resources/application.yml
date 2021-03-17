@@ -1,0 +1,33 @@
+db: blog_db
+server:
+  port: 8088
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+        name: MRLV
+  tomcat:
+    uri-encoding: UTF-8
+#spring
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  profiles:
+    active: dev
+    include: druid,mybatisplus,shiro
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/${db}?characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+
+logging:
+  path: ./logs
+  level:
+    com.mrlv.api.dao: debug
